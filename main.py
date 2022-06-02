@@ -83,7 +83,8 @@ def gather_durations_of_all():
 
 
 def the_most_optimal(durations):
-    fastest = durations[:50]
+    number_of_the_fastest_flights = 50  # let's take random number that we think is enough
+    fastest = durations[:number_of_the_fastest_flights]
     optimal = []
     for numb, duration in enumerate(fastest):
         optimal.append((duration[0], len(durations) - duration[0] + numb, duration[1]))

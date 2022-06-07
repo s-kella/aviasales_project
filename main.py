@@ -3,8 +3,8 @@ import datetime
 import argparse
 
 
-def print_all_options():
-    priced_itineraries = root1[1]
+def print_all_options(root):
+    priced_itineraries = root[1]
     for itin_numb, flights in enumerate(priced_itineraries):
         print(f'Itinerary {itin_numb + 1}\n')
         for i, elem in enumerate(flights):
@@ -47,18 +47,18 @@ def print_itinerary(itin_numb, root):
                     print()
 
 
-def find_the_cheapest():
-    priced_itineraries = root1[1]
+def find_the_cheapest(root):
+    priced_itineraries = root[1]
     print(f'Price: {priced_itineraries[0][2][2].text}')
     print()
-    print_itinerary(0, root1)
+    print_itinerary(0, root)
 
 
-def find_the_most_expensive():
-    priced_itineraries = root1[1]
+def find_the_most_expensive(root):
+    priced_itineraries = root[1]
     print(f'Price: {priced_itineraries[199][2][2].text}')
     print()
-    print_itinerary(199, root1)
+    print_itinerary(199, root)
 
 
 def find_duration(flights):
@@ -73,9 +73,9 @@ def find_duration(flights):
     return str(duration)
 
 
-def gather_durations_of_all():
+def gather_durations_of_all(root):
     durations = []
-    for itin_numb, flights in enumerate(root1[1]):
+    for itin_numb, flights in enumerate(root[1]):
         duration = find_duration(flights)
         durations.append((itin_numb, str(duration)))
         durations.sort(key=lambda i: i[1])
@@ -91,7 +91,7 @@ def the_most_optimal(durations):
     return optimal
 
 
-def find_differences():
+def find_differences(root1, root2):
     priced_itineraries1 = root1[1]
     priced_itineraries2 = root2[1]
     for itin_numb, itinerary in enumerate(priced_itineraries2):
@@ -123,28 +123,28 @@ def main():
     args = parser.parse_args()
 
     if args.all:
-        print_all_options()
+        print_all_options(root1)
     elif args.chp:
-        find_the_cheapest()
+        find_the_cheapest(root1)
     elif args.exp:
-        find_the_most_expensive()
+        find_the_most_expensive(root1)
     elif args.fst:
-        durations = gather_durations_of_all()
+        durations = gather_durations_of_all(root1)
         print(f'The fastest itinerary: {durations[0][1]}')
         print_itinerary(durations[0][0], root1)
     elif args.slw:
-        durations = gather_durations_of_all()
+        durations = gather_durations_of_all(root1)
         print(f'The slowest itinerary: {durations[len(durations)-1][1]}')
         print_itinerary(durations[len(durations)-1][0], root1)
     elif args.opt:
-        durations = gather_durations_of_all()
+        durations = gather_durations_of_all(root1)
         optimal = the_most_optimal(durations)
         print(f'Duration: {sorted(optimal)[0][2]}')
         print(f'Price: {root1[1][sorted(optimal)[0][0]][2][2].text}')
         print()
         print_itinerary(sorted(optimal)[0][0], root1)
     elif args.dif:
-        find_differences()
+        find_differences(root1, root2)
 
 
 if __name__ == '__main__':

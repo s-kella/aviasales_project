@@ -5,15 +5,15 @@ import argparse
 
 def print_all_options(root):
     priced_itineraries = root[1]
-    for itin_numb, flights in enumerate(priced_itineraries):
-        print(f'Itinerary {itin_numb + 1}\n')
-        for i, elem in enumerate(flights):
-            if i in [0, 1]:
-                if i == 0:
+    for itinerary_index, flights in enumerate(priced_itineraries):
+        print(f'Itinerary {itinerary_index + 1}\n')
+        for itinerary_part_id, one_way in enumerate(flights):
+            if itinerary_part_id in [0, 1]:
+                if itinerary_part_id == 0:
                     print('The way there:')
                 else:
                     print('The way back')
-                for one_way_flights in elem:
+                for one_way_flights in one_way:
                     for flight in one_way_flights:
                         d_date = flight[4].text.split('T')[0]
                         d_time = flight[4].text.split('T')[1]
@@ -28,13 +28,13 @@ def print_all_options(root):
 
 def print_itinerary(itin_numb, root):
     priced_itineraries = root[1]
-    for i, elem in enumerate(priced_itineraries[itin_numb]):
-        if i in [0, 1]:
-            if i == 0:
+    for itinerary_part_id, one_way in enumerate(priced_itineraries[itin_numb]):
+        if itinerary_part_id in [0, 1]:
+            if itinerary_part_id == 0:
                 print('The way there:')
             else:
                 print('The way back')
-            for one_way_flights in elem:
+            for one_way_flights in one_way:
                 for flight in one_way_flights:
                     d_date = flight[4].text.split('T')[0]
                     d_time = flight[4].text.split('T')[1]
@@ -63,9 +63,9 @@ def find_the_most_expensive(root):
 
 def find_duration(flights):
     duration = datetime.timedelta(0, 0, 0)
-    for i, elem in enumerate(flights):
-        if i in [0, 1]:
-            for one_way_flights in elem:
+    for itinerary_part_id, one_way in enumerate(flights):
+        if itinerary_part_id in [0, 1]:
+            for one_way_flights in one_way:
                 for flight in one_way_flights:
                     d_datetime = datetime.datetime.strptime(flight[4].text, '%Y-%m-%dT%H%M')
                     a_datetime = datetime.datetime.strptime(flight[5].text, '%Y-%m-%dT%H%M')
@@ -75,9 +75,9 @@ def find_duration(flights):
 
 def gather_durations_of_all(root):
     durations = []
-    for itin_numb, flights in enumerate(root[1]):
+    for itinerary_index, flights in enumerate(root[1]):
         duration = find_duration(flights)
-        durations.append((itin_numb, str(duration)))
+        durations.append((itinerary_index, str(duration)))
         durations.sort(key=lambda i: i[1])
     return durations
 
@@ -94,19 +94,19 @@ def the_most_optimal(durations):
 def find_differences(root1, root2):
     priced_itineraries1 = root1[1]
     priced_itineraries2 = root2[1]
-    for itin_numb, itinerary in enumerate(priced_itineraries2):
-        duration1 = find_duration(priced_itineraries1[itin_numb])
+    for itinerary_index, itinerary in enumerate(priced_itineraries2):
+        duration1 = find_duration(priced_itineraries1[itinerary_index])
         duration2 = find_duration(itinerary)
         if duration1 > duration2:
             print(
-                f'Itinerary #{itin_numb + 1} from the file RS_ViaOW.xml is faster than itinerary from the file RS_Via-3.xml')
+                f'Itinerary #{itinerary_index + 1} from the file RS_ViaOW.xml is faster than itinerary from the file RS_Via-3.xml')
             print(f'RS_Via-3.xml: {duration1}\t RS_ViaOW.xml: {duration2}')
         elif duration2 > duration1:
             print(
-                f'Itinerary #{itin_numb + 1} from the file RS_Via-3.xml is faster than itinerary from the file RS_ViaOW.xml')
+                f'Itinerary #{itinerary_index + 1} from the file RS_Via-3.xml is faster than itinerary from the file RS_ViaOW.xml')
             print(f'RS_Via-3.xml: {duration1}\t RS_ViaOW.xml: {duration2}')
         else:
-            print(f'Itineraries #{itin_numb + 1} from the files RS_Via-3.xml and RS_ViaOW.xml have the same duration')
+            print(f'Itineraries #{itinerary_index + 1} from the files RS_Via-3.xml and RS_ViaOW.xml have the same duration')
             print(f'RS_Via-3.xml: {duration1}\t RS_ViaOW.xml: {duration2}')
         print()
 

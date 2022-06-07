@@ -56,9 +56,9 @@ def find_the_cheapest(root):
 
 def find_the_most_expensive(root):
     priced_itineraries = root[1]
-    print(f'Price: {priced_itineraries[199][2][2].text}')
+    print(f'Price: {priced_itineraries[len(priced_itineraries) - 1][2][2].text}')
     print()
-    print_itinerary(199, root)
+    print_itinerary(len(priced_itineraries) - 1, root)
 
 
 def find_duration(flights):
@@ -117,7 +117,7 @@ def main():
 
     tree2 = ET.parse('RS_ViaOW.xml')
     root2 = tree2.getroot()
-    
+
     parser = argparse.ArgumentParser()
     parser.add_argument('-a', '--all', help='Show all options', action='store_true')
     parser.add_argument('-c', '--chp', help='Find the cheapest ticket ', action='store_true')

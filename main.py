@@ -112,6 +112,12 @@ def find_differences(root1, root2):
 
 
 def main():
+    tree1 = ET.parse('RS_Via-3.xml')
+    root1 = tree1.getroot()
+
+    tree2 = ET.parse('RS_ViaOW.xml')
+    root2 = tree2.getroot()
+    
     parser = argparse.ArgumentParser()
     parser.add_argument('-a', '--all', help='Show all options', action='store_true')
     parser.add_argument('-c', '--chp', help='Find the cheapest ticket ', action='store_true')
@@ -148,11 +154,6 @@ def main():
 
 
 if __name__ == '__main__':
-    tree1 = ET.parse('RS_Via-3.xml')
-    root1 = tree1.getroot()
-
-    tree2 = ET.parse('RS_ViaOW.xml')
-    root2 = tree2.getroot()
     main()
 
 

@@ -15,10 +15,8 @@ def print_all_options(root):
                     print('The way back')
                 for one_way_flights in one_way:
                     for flight in one_way_flights:
-                        d_date = flight[4].text.split('T')[0]
-                        d_time = flight[4].text.split('T')[1]
-                        a_date = flight[5].text.split('T')[0]
-                        a_time = flight[5].text.split('T')[1]
+                        d_date, d_time = flight[4].text.split('T')
+                        a_date, a_time = flight[5].text.split('T')
                         print(f'{flight[2].text} - {flight[3].text}')
                         print(f'Departure:\t {d_date}, {d_time[:2]}:{d_time[2:]}')
                         print(f'Arrival:\t {a_date}, {a_time[:2]}:{a_time[2:]}')
